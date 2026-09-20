@@ -12,7 +12,7 @@ Projeto Final da disciplina **Laboratório de Banco de Dados** (GPE17M40053) —
 | Analista de domínio | Italo |
 | Modelador de dados | Lavinia Paiva |
 | Modelador de dados (apoio) | _____________________ |
-| Administrador do banco | _____________________ |
+| Administrador do banco | Isabela Dourado|
 | Desenvolvedor | _____________________ |
 
 ## Sobre o projeto
