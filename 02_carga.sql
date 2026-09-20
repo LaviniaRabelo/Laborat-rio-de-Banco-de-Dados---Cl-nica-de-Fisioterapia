@@ -1,35 +1,14 @@
--- ============================================================================
--- 02_carga.sql
--- Projeto Final — Laboratório de Banco de Dados (GPE17M40083)
--- Tema: Clínica de Fisioterapia — Etapa 1 (N1)
--- Dados fictícios/sintéticos (nenhum dado pessoal real de terceiros).
--- Executar após 01_ddl.sql, em base limpa e na ordem apresentada,
--- respeitando a dependência de chave estrangeira entre as tabelas.
---
--- Casos de contorno propositais incluídos:
---  * pacientes sem endereço completo e sem telefone cadastrado;
---  * pacientes sem convênio (atendimento particular);
---  * paciente com histórico de troca de convênio (RN13/atributo temporal);
---  * agendamentos com status 'realizado' sem evolução registrada ainda
---    (situação em aberto);
---  * item_agendamento com valor_cobrado divergente do valor_tabela (RN12);
---  * paciente indicado por outro paciente já cadastrado (RN03).
--- ============================================================================
-
 -- ESPECIALIDADE
 
 INSERT INTO especialidade (nome_especialidade, descricao) VALUES
-
 ('Ortopédica', 'Reabilitação de lesões osteomusculares e pós-cirúrgicas'),
 ('Neurológica', 'Reabilitação de pacientes com sequelas neurológicas'),
 ('Respiratória', 'Reabilitação e manutenção da função pulmonar'),
 ('Desportiva', 'Prevenção e reabilitação de lesões relacionadas à prática esportiva');
 
-
 -- CONVENIO
 
 INSERT INTO convenio (nome_convenio, registro_ans, telefone_contato) VALUES
-
 ('Vitalis Saúde', 'ANS-000111', '(61) 3000-1111'),
 ('Bem Cuidar Convênios', 'ANS-000222', '(61) 3000-2222'),
 ('Vida Ativa Saúde', 'ANS-000333', '(61) 3000-3333'),
@@ -37,22 +16,18 @@ INSERT INTO convenio (nome_convenio, registro_ans, telefone_contato) VALUES
 ('Central Saúde DF', 'ANS-000555', '(61) 3000-5555'),
 ('Convergência Saúde', 'ANS-000666', '(61) 3000-6666');
 
-
 -- SALA
 
 INSERT INTO sala (numero_sala, capacidade) VALUES
-
 ('Sala 01', 1),
 ('Sala 02', 1),
 ('Sala 03', 2),
 ('Sala 04', 1),
 ('Sala 05', 4);
 
-
 -- EQUIPAMENTO_SALA
 
 INSERT INTO equipamento_sala (id_sala, equipamento) VALUES
-
 (1, 'Maca'),
 (1, 'Faixas elásticas'),
 (1, 'Bola suíça'),
@@ -66,11 +41,9 @@ INSERT INTO equipamento_sala (id_sala, equipamento) VALUES
 (5, 'Piscina terapêutica'),
 (5, 'Barras paralelas aquáticas');
 
-
 -- PROCEDIMENTO
 
 INSERT INTO procedimento (nome_procedimento, id_especialidade_exigida, valor_tabela, duracao_padrao_min) VALUES
-
 ('Cinesioterapia articular', 1, 90.00, 50),
 ('Terapia manual', 1, 110.00, 45),
 ('RPG - Reeducação Postural Global', 1, 130.00, 60),
@@ -84,11 +57,9 @@ INSERT INTO procedimento (nome_procedimento, id_especialidade_exigida, valor_tab
 ('Fisioterapia desportiva preventiva', 4, 120.00, 45),
 ('Reabilitação de lesão ligamentar', 4, 135.00, 55);
 
-
 -- COBERTURA
 
 INSERT INTO cobertura (id_convenio, id_procedimento, percentual_cobertura) VALUES
-
 (1, 2, 100.00),
 (1, 1, 80.00),
 (1, 5, 50.00),
@@ -124,11 +95,9 @@ INSERT INTO cobertura (id_convenio, id_procedimento, percentual_cobertura) VALUE
 (6, 8, 60.00),
 (6, 6, 70.00);
 
-
 -- PROFISSIONAL (superclasse)
 
 INSERT INTO profissional (cpf, nome, data_admissao, telefone) VALUES
-
 ('00700000001', 'Ana Beatriz Souza', '2020-01-10', '(61) 98000-1000'),
 ('00700000002', 'Bruno Carvalho Lima', '2021-02-10', '(61) 98001-1001'),
 ('00700000003', 'Camila Nogueira Alves', '2022-03-10', '(61) 98002-1002'),
@@ -145,11 +114,9 @@ INSERT INTO profissional (cpf, nome, data_admissao, telefone) VALUES
 ('00700000081', 'Natália Borges Cunha', '2020-02-15', '(61) 96001-3001'),
 ('00700000082', 'Otávio Ribeiro Freitas', '2021-03-15', '(61) 96002-3002');
 
-
 -- FISIOTERAPEUTA
 
 INSERT INTO fisioterapeuta (id_profissional, numero_crefito) VALUES
-
 (1, 'CREFITO1 100001-F'),
 (2, 'CREFITO1 100002-F'),
 (3, 'CREFITO1 100003-F'),
@@ -159,30 +126,24 @@ INSERT INTO fisioterapeuta (id_profissional, numero_crefito) VALUES
 (7, 'CREFITO1 100007-F'),
 (8, 'CREFITO1 100008-F');
 
-
 -- RECEPCIONISTA
 
 INSERT INTO recepcionista (id_profissional, ramal) VALUES
-
 (9, '1009'),
 (10, '1010'),
 (11, '1011'),
 (12, '1012');
 
-
 -- ADMINISTRATIVO
 
 INSERT INTO administrativo (id_profissional, cargo) VALUES
-
 (13, 'Analista de faturamento'),
 (14, 'Analista de faturamento'),
 (15, 'Analista de faturamento');
 
-
 -- QUALIFICACAO
 
 INSERT INTO qualificacao (id_profissional, id_especialidade, data_qualificacao) VALUES
-
 (1, 1, '2019-10-21'),
 (2, 2, '2019-12-08'),
 (2, 3, '2019-03-15'),
@@ -197,11 +158,9 @@ INSERT INTO qualificacao (id_profissional, id_especialidade, data_qualificacao) 
 (8, 2, '2019-12-18'),
 (8, 1, '2019-09-09');
 
-
 -- PACIENTE
 
 INSERT INTO paciente (cpf, nome, data_nascimento, logradouro, numero_endereco, bairro, cidade, uf, cep, id_paciente_indicador) VALUES
-
 ('00700000200', 'Josiane Vieira Carvalho', '1996-06-08', 'SQS 308', '94', 'Brasília', 'Brasília', 'DF', '70192000', NULL),
 ('00700000201', 'Juliana Rodrigues Rocha', '1965-11-14', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('00700000202', 'Leonardo Barbosa Almeida', '2012-05-18', 'QNM 12', '118', 'Taguatinga', 'Brasília', 'DF', '72792000', NULL),
@@ -253,11 +212,9 @@ INSERT INTO paciente (cpf, nome, data_nascimento, logradouro, numero_endereco, b
 ('00700000248', 'Daniela Oliveira Almeida', '1998-11-19', 'QNA 20', '394', 'Taguatinga', 'Brasília', 'DF', '72024000', NULL),
 ('00700000249', 'Simone Pereira Rodrigues', '1945-02-25', 'QNE 18', '824', 'Taguatinga', 'Brasília', 'DF', '72850000', NULL);
 
-
--- TELEFONE_PACIENTE (multivalorado; alguns pacientes sem telefone — caso de contorno)
+-- TELEFONE_PACIENTE 
 
 INSERT INTO telefone_paciente (id_paciente, telefone) VALUES
-
 (1, '(61) 99001-4001'),
 (2, '(61) 99002-4002'),
 (3, '(61) 99003-4003'),
@@ -317,11 +274,9 @@ INSERT INTO telefone_paciente (id_paciente, telefone) VALUES
 (49, '(61) 3249-5049'),
 (50, '(61) 99050-4050');
 
-
--- VINCULO_CONVENIO (histórico; alguns pacientes trocaram de convênio)
+-- VINCULO_CONVENIO 
 
 INSERT INTO vinculo_convenio (id_paciente, id_convenio, data_inicio, data_fim, numero_carteirinha) VALUES
-
 (8, 3, '2022-10-26', NULL, 'CART-1008'),
 (11, 4, '2022-08-14', NULL, 'CART-1011'),
 (20, 5, '2022-05-11', NULL, 'CART-1020'),
@@ -369,11 +324,9 @@ INSERT INTO vinculo_convenio (id_paciente, id_convenio, data_inicio, data_fim, n
 (9, 6, '2022-04-09', NULL, 'CART-1009'),
 (24, 6, '2022-10-22', NULL, 'CART-1024');
 
-
--- AGENDAMENTO (respeitando RN09/RN10/RN11: sem sobreposição, especialidade compatível)
+-- AGENDAMENTO 
 
 INSERT INTO agendamento (id_agendamento, id_paciente, id_fisioterapeuta, id_sala, data_hora_inicio, data_hora_fim, status) VALUES
-
 (1, 15, 2, 5, '2026-06-26 16:00', '2026-06-26 16:50', 'realizado'),
 (2, 39, 8, 1, '2026-08-04 17:00', '2026-08-04 17:50', 'realizado'),
 (3, 3, 5, 5, '2026-08-15 08:00', '2026-08-15 08:50', 'realizado'),
@@ -495,11 +448,9 @@ INSERT INTO agendamento (id_agendamento, id_paciente, id_fisioterapeuta, id_sala
 (119, 22, 8, 2, '2026-06-25 11:00', '2026-06-25 11:50', 'realizado'),
 (120, 36, 7, 2, '2026-08-29 11:00', '2026-08-29 11:50', 'realizado');
 
-
 -- ITEM_AGENDAMENTO
 
 INSERT INTO item_agendamento (id_agendamento, id_procedimento, valor_cobrado, duracao_realizada) VALUES
-
 (1, 6, 104.50, 50),
 (1, 5, 140.00, 55),
 (2, 3, 130.00, NULL),
@@ -657,11 +608,9 @@ INSERT INTO item_agendamento (id_agendamento, id_procedimento, valor_cobrado, du
 (119, 7, 150.00, 55),
 (120, 12, 135.00, 50);
 
-
 -- EVOLUCAO (entidade fraca; alguns 'realizado' ficam propositalmente sem evolução)
 
 INSERT INTO evolucao (id_paciente, num_evolucao, data_evolucao, id_agendamento, id_fisioterapeuta_responsavel, descricao_evolucao) VALUES
-
 (15, 1, '2026-06-26', 1, 2, 'Paciente relata dor residual leve; ajustada carga dos exercícios.'),
 (39, 1, '2026-08-04', 2, 8, 'Ganho de força muscular observado em comparação à sessão anterior.'),
 (3, 1, '2026-08-15', 3, 5, 'Ganho de força muscular observado em comparação à sessão anterior.'),
