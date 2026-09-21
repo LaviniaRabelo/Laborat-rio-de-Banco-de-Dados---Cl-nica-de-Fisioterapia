@@ -272,9 +272,3 @@ CREATE TABLE evolucao (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE INDEX idx_evolucao_fisioterapeuta ON evolucao (id_fisioterapeuta_responsavel);
-
--- ============================================================================
--- Fim do script. 17 tabelas criadas (11 entidades do MER + 4 associativas
--- + 2 tabelas de atributo multivalorado), todas as FKs com ON DELETE/
--- ON UPDATE explícitos, conforme exigido no item A6 do enunciado.
--- ============================================================================
