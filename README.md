@@ -64,7 +64,7 @@ O `01_ddl.sql` pode ser executado quantas vezes forem necessárias.
 - **1 autorrelacionamento:** indicação de paciente por paciente
 - **1 especialização:** total e exclusiva (Profissional → Fisioterapeuta / Recepcionista / Administrativo)
 - **1 entidade fraca:** Evolução, dependente de Paciente
-- **21 regras de negócio:** rastreadas do documento de escopo até a implementação (ver `docs/relatorio-etapa1.pdf`, seção 1.2)
+- **19 regras de negócio:** rastreadas do documento de escopo até a implementação (ver `docs/relatorio-etapa1.pdf`, seção 1.2)
 
 ## Uso de inteligência artificial
 
