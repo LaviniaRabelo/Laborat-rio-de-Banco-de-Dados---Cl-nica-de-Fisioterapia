@@ -39,8 +39,8 @@ A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-
 
 ## Requisitos técnicos
 
-- **SGBD:** PostgreSQL 14 ou superior
-- Cliente `psql` (ou qualquer cliente SQL compatível: DBeaver, pgAdmin etc.)
+- **SGBD:** MySQL 8.0 ou superior
+- Cliente `mysql`, DBeaver, MySQL Workbench etc.
 
 ## Como reconstruir o banco do zero
 
