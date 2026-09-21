@@ -46,7 +46,7 @@ A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-
 
 ### 1. Criar o banco
 
-    createdb clinica_fisioterapia
+    mysql -u usuario -p < arquivo.sql clinica_fisioterapia
 
 ### 2. Rodar os scripts, na ordem, dentro da pasta sql/
 
