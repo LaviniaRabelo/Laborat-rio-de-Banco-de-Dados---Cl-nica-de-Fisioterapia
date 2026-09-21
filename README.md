@@ -1,8 +1,9 @@
 # Clínica de Fisioterapia — Banco de Dados
 
-Projeto Final da disciplina **Laboratório de Banco de Dados** (GPE17M40053) — Bacharelado em Engenharia de Software, Universidade Católica de Brasília (UCB).
+Projeto Final da disciplina **Laboratório de Banco de Dados** (GPE17M40053) 
+Bacharelado em Engenharia de Software, Universidade Católica de Brasília (UCB).
 
-**Professor:** Samuel Novais Moura Júnior — samuel.moura@p.ucb.br  
+**Professor:** Samuel Novais Moura Júnior 
 **Semestre:** 2026/2
 
 ## Equipe
@@ -17,7 +18,7 @@ Projeto Final da disciplina **Laboratório de Banco de Dados** (GPE17M40053) —
 
 ## Sobre o projeto
 
-O sistema modela o funcionamento de uma clínica de fisioterapia com atendimento particular e conveniado, nas especialidades ortopédica, neurológica, respiratória e desportiva. Cobre o cadastro de pacientes e profissionais, o agendamento e execução de sessões, o controle de convênios e cobertura de procedimentos, e o registro da evolução clínica do paciente ao longo do tratamento — conforme exigido pela Resolução COFFITO nº 414/2012.
+O sistema modela o funcionamento de uma clínica de fisioterapia com atendimento particular e conveniado, nas especialidades ortopédica, neurológica, respiratória e desportiva. Cobre o cadastro de pacientes e profissionais, o agendamento e execução de sessões, o controle de convênios e cobertura de procedimentos, e o registro da evolução clínica do paciente ao longo do tratamento, conforme exigido pela Resolução COFFITO nº 414/2012.
 
 A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-relacionamento, o dicionário de dados, o modelo lógico e a análise de normalização estão no relatório da Etapa 1 (`docs/relatorio-etapa1.pdf`).
 
@@ -55,7 +56,7 @@ A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-
 
 Os três scripts foram testados em sequência, em base limpa, sem apresentar erros.
 
-O `01_ddl.sql` pode ser executado quantas vezes forem necessárias — ele apaga e recria as tabelas no início (`DROP TABLE IF EXISTS ... CASCADE`).
+O `01_ddl.sql` pode ser executado quantas vezes forem necessárias.
 
 ## Resumo do modelo
 
