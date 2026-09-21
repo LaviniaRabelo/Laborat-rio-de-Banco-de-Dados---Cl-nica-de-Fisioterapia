@@ -44,6 +44,10 @@ A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-
 
 ## Como reconstruir o banco do zero
 
+    mysql -u usuario -p < sql/01_ddl.sql
+    mysql -u usuario -p clinica_fisioterapia < sql/02_carga.sql
+    mysql -u usuario -p clinica_fisioterapia < sql/03_consultas.sql
+
 ### 1. Criar o banco
 
     mysql -u usuario -p < arquivo.sql clinica_fisioterapia
@@ -64,7 +68,8 @@ O `01_ddl.sql` pode ser executado quantas vezes forem necessárias.
 - **1 autorrelacionamento:** indicação de paciente por paciente
 - **1 especialização:** total e exclusiva (Profissional → Fisioterapeuta / Recepcionista / Administrativo)
 - **1 entidade fraca:** Evolução, dependente de Paciente
-- **19 regras de negócio:** rastreadas do documento de escopo até a implementação (ver `docs/relatorio-etapa1.pdf`, seção 1.2)
+- **20 regras de negócio:** rastreadas do documento de escopo até a implementação (ver `docs/relatorio-etapa1.pdf`)
+- - **50 pacientes e 120 agendamentos na carga** além dos demais cadastros e históricos necessários à verificação do modelo.
 
 ## Uso de inteligência artificial
 
