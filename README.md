@@ -50,9 +50,9 @@ A descrição completa do domínio, as 20 regras de negócio, o modelo entidade-
 
 ### 2. Rodar os scripts, na ordem, dentro da pasta sql/
 
-    psql -d clinica_fisioterapia -f sql/01_ddl.sql
-    psql -d clinica_fisioterapia -f sql/02_carga.sql
-    psql -d clinica_fisioterapia -f sql/03_consultas.sql
+    mysql -u usuario -p < sql/01_ddl.sql
+    mysql -u usuario -p < sql/02_carga.sql
+    mysql -u usuario -p < sql/03_consultas.sql
 
 Os três scripts foram testados em sequência, em base limpa, sem apresentar erros.
 
