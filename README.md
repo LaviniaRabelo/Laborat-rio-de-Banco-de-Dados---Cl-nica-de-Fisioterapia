@@ -1,4 +1,4 @@
-# Clínica de Fisioterapia — Banco de Dados
+# Clínica de Fisioterapia
 
 Projeto Final da disciplina **Laboratório de Banco de Dados** (GPE17M40053) 
 Bacharelado em Engenharia de Software, Universidade Católica de Brasília (UCB).
