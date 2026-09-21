@@ -17,27 +17,27 @@ SET FOREIGN_KEY_CHECKS = 1;
  
 CREATE TABLE paciente (
     id_paciente INT NOT NULL AUTO_INCREMENT,
-    cpf CHAR(11) NOT NULL,  -- RN01: CPF único, 11 dígitos
+    cpf CHAR(11) NOT NULL,  -- RN19: CPF único, 11 dígitos
     nome VARCHAR(120) NOT NULL,
-    data_nascimento DATE NOT NULL,  -- RN02: não pode ser futura
+    data_nascimento DATE NOT NULL,  -- RN03: não pode ser futura
     logradouro VARCHAR(120),
     numero_endereco VARCHAR(10),
     bairro VARCHAR(60),
     cidade VARCHAR(60),
     uf CHAR(2),
     cep CHAR(8),
-    id_paciente_indicador INT, -- RN03: indicado por outro paciente (opcional)
+    id_paciente_indicador INT, -- Autorrelacionamento: paciente pode ser indicado por outro paciente (opcional)
     CONSTRAINT pk_paciente PRIMARY KEY (id_paciente),
-    CONSTRAINT uq_paciente_cpf UNIQUE (cpf),   -- RN01
-    CONSTRAINT ck_paciente_cpf_formato CHECK (cpf REGEXP '^[0-9]{11}$'), -- RN01
+    CONSTRAINT uq_paciente_cpf UNIQUE (cpf),   -- RN19
+    CONSTRAINT ck_paciente_cpf_formato CHECK (cpf REGEXP '^[0-9]{11}$'), -- RN19
     CONSTRAINT ck_paciente_uf CHECK (uf IS NULL OR uf REGEXP '^[A-Z]{2}$'),
     CONSTRAINT fk_paciente_indicador FOREIGN KEY (id_paciente_indicador)
         REFERENCES paciente (id_paciente)
-        ON DELETE SET NULL ON UPDATE CASCADE  -- RN03: autorrelacionamento de indicação
+        ON DELETE SET NULL ON UPDATE CASCADE  -- Autorrelacionamento de indicação
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
  
 CREATE INDEX idx_paciente_indicador ON paciente (id_paciente_indicador);
--- RN02 (data_nascimento não pode ser futura) não pôde ser expressa em CHECK
+-- RN03 (data_nascimento não pode ser futura) não pôde ser expressa em CHECK
 -- porque o MySQL proíbe funções não-determinísticas (CURRENT_DATE/CURDATE)
 -- em expressões de CHECK (erro 3814). Verificada por consulta em
 -- 03_consultas.sql e reforçável por trigger BEFORE INSERT na Etapa 2.
@@ -74,9 +74,9 @@ CREATE TABLE profissional (
  
 CREATE TABLE fisioterapeuta (
     id_profissional INT NOT NULL,
-    numero_crefito VARCHAR(20) NOT NULL,  -- RN04: registro único no CREFITO
+    numero_crefito VARCHAR(20) NOT NULL,  -- RN04: número de CREFITO obrigatório
     CONSTRAINT pk_fisioterapeuta PRIMARY KEY (id_profissional),
-    CONSTRAINT uq_fisioterapeuta_crefito UNIQUE (numero_crefito),  -- RN04
+    CONSTRAINT uq_fisioterapeuta_crefito UNIQUE (numero_crefito),  -- RN20
     CONSTRAINT fk_fisioterapeuta_profissional FOREIGN KEY (id_profissional)
         REFERENCES profissional (id_profissional)
         ON DELETE CASCADE ON UPDATE CASCADE
@@ -119,7 +119,7 @@ CREATE TABLE especialidade (
 CREATE TABLE qualificacao (
     id_profissional INT NOT NULL,
     id_especialidade INT NOT NULL,
-    data_qualificacao DATE NOT NULL, -- RN08: data de obtenção
+    data_qualificacao DATE NOT NULL, -- RN02: data de obtenção
     CONSTRAINT pk_qualificacao PRIMARY KEY (id_profissional, id_especialidade),
     CONSTRAINT fk_qualificacao_fisioterapeuta FOREIGN KEY (id_profissional)
         REFERENCES fisioterapeuta (id_profissional)
@@ -128,7 +128,7 @@ CREATE TABLE qualificacao (
         REFERENCES especialidade (id_especialidade)
         ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
--- RN07 (todo fisioterapeuta deve ter ao menos uma especialidade) é uma
+-- RN01 (todo fisioterapeuta deve ter ao menos uma especialidade) é uma
 -- restrição de cardinalidade mínima (1,N) que o modelo relacional puro não
 -- expressa; verificada por consulta em 03_consultas.sql.
  
@@ -157,9 +157,9 @@ CREATE TABLE vinculo_convenio (
     CONSTRAINT fk_vinculo_convenio FOREIGN KEY (id_convenio)
         REFERENCES convenio (id_convenio)
         ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT ck_vinculo_datas CHECK (data_fim IS NULL OR data_fim >= data_inicio) -- RN13
+    CONSTRAINT ck_vinculo_datas CHECK (data_fim IS NULL OR data_fim >= data_inicio) -- integridade temporal do vínculo
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
--- RN13 (no máximo um vínculo ativo por vez) exige verificar, por paciente,
+-- RN11 (no máximo um vínculo ativo por vez) exige verificar, por paciente,
 -- que não haja duas linhas com data_fim IS NULL simultaneamente —
 -- verificado por consulta em 03_consultas.sql.
  
@@ -206,7 +206,7 @@ CREATE TABLE procedimento (
 CREATE TABLE cobertura (
     id_convenio INT NOT NULL,
     id_procedimento INT NOT NULL,
-    percentual_cobertura DECIMAL(5,2) NOT NULL,  -- RN14
+    percentual_cobertura DECIMAL(5,2) NOT NULL,  -- RN12
     CONSTRAINT pk_cobertura PRIMARY KEY (id_convenio, id_procedimento),
     CONSTRAINT fk_cobertura_convenio FOREIGN KEY (id_convenio)
         REFERENCES convenio (id_convenio)
@@ -226,7 +226,7 @@ CREATE TABLE agendamento (
     id_sala INT NOT NULL,
     data_hora_inicio DATETIME NOT NULL,
     data_hora_fim DATETIME NOT NULL,
-    status VARCHAR(15) NOT NULL DEFAULT 'agendado',   -- RN19: cancelamento não exclui o registro
+    status VARCHAR(15) NOT NULL DEFAULT 'agendado',   -- RN17: cancelamento não exclui o registro
     CONSTRAINT pk_agendamento PRIMARY KEY (id_agendamento),
     CONSTRAINT fk_agendamento_paciente FOREIGN KEY (id_paciente)
         REFERENCES paciente (id_paciente)
@@ -241,13 +241,13 @@ CREATE TABLE agendamento (
     CONSTRAINT ck_agendamento_status CHECK (status IN ('agendado', 'realizado', 'cancelado'))
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
  
-CREATE INDEX idx_agendamento_fisio_periodo ON agendamento (id_fisioterapeuta, data_hora_inicio, data_hora_fim);  -- RN10
-CREATE INDEX idx_agendamento_sala_periodo ON agendamento (id_sala, data_hora_inicio, data_hora_fim);            -- RN11
--- RN10/RN11 (sem sobreposição de horário para o mesmo fisioterapeuta/sala)
+CREATE INDEX idx_agendamento_fisio_periodo ON agendamento (id_fisioterapeuta, data_hora_inicio, data_hora_fim);  -- RN09
+CREATE INDEX idx_agendamento_sala_periodo ON agendamento (id_sala, data_hora_inicio, data_hora_fim);            -- RN08
+-- RN08/RN09 (sem sobreposição de horário para o mesmo fisioterapeuta/sala)
 -- não são expressáveis em CHECK padrão (comparam linhas diferentes da
 -- mesma tabela); verificadas por consulta em 03_consultas.sql, podendo
 -- evoluir para trigger BEFORE INSERT/UPDATE na Etapa 2.
--- RN09 (fisioterapeuta deve estar habilitado na especialidade exigida
+-- RN07 (fisioterapeuta deve estar habilitado na especialidade exigida
 -- pelo procedimento) depende de QUALIFICACAO e ITEM_AGENDAMENTO juntas;
 -- verificada por consulta cruzada, não por FK simples.
  
@@ -256,7 +256,7 @@ CREATE INDEX idx_agendamento_sala_periodo ON agendamento (id_sala, data_hora_ini
 CREATE TABLE item_agendamento (
     id_agendamento INT NOT NULL,
     id_procedimento INT NOT NULL,
-    valor_cobrado DECIMAL(10,2) NOT NULL, -- RN12: valor efetivamente cobrado
+    valor_cobrado DECIMAL(10,2) NOT NULL, -- RN10: valor efetivamente cobrado
     duracao_realizada   SMALLINT,
     CONSTRAINT pk_item_agendamento PRIMARY KEY (id_agendamento, id_procedimento),
     CONSTRAINT fk_item_agendamento_agendamento FOREIGN KEY (id_agendamento)
@@ -274,10 +274,10 @@ CREATE TABLE item_agendamento (
 CREATE TABLE evolucao (
     id_paciente INT NOT NULL,
     num_evolucao SMALLINT NOT NULL,
-    data_evolucao DATE NOT NULL,  -- RN16, RN17
-    id_agendamento INT NOT NULL,   -- RN15
-    id_fisioterapeuta_responsavel INT NOT NULL,  -- RN16
-    descricao_evolucao TEXT NOT NULL,  -- RN16
+    data_evolucao DATE NOT NULL,  -- RN14, RN15
+    id_agendamento INT NOT NULL,   -- RN13
+    id_fisioterapeuta_responsavel INT NOT NULL,  -- RN14
+    descricao_evolucao TEXT NOT NULL,  -- RN14
     CONSTRAINT pk_evolucao PRIMARY KEY (id_paciente, num_evolucao),
     CONSTRAINT fk_evolucao_paciente FOREIGN KEY (id_paciente)
         REFERENCES paciente (id_paciente)
@@ -293,7 +293,7 @@ CREATE TABLE evolucao (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
  
 CREATE INDEX idx_evolucao_fisioterapeuta ON evolucao (id_fisioterapeuta_responsavel);
--- RN17 (data_evolucao não anterior à data do agendamento) compara colunas
+-- RN15 (data_evolucao não anterior à data do agendamento) compara colunas
 -- de tabelas diferentes — não expressável em CHECK padrão
 -- verificada por consulta em 03_consultas.sql e reforçável por trigger na Etapa 2.
  
@@ -302,3 +302,4 @@ CREATE INDEX idx_evolucao_fisioterapeuta ON evolucao (id_fisioterapeuta_responsa
 -- + 2 tabelas de atributo multivalorado), todas as FKs com ON DELETE/
 -- ON UPDATE explícitos, conforme exigido no item A6 do enunciado.
 -- ============================================================================
+
