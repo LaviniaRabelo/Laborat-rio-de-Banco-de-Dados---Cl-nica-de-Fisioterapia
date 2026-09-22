@@ -69,7 +69,7 @@ O `01_ddl.sql` pode ser executado quantas vezes forem necessárias.
 - **1 especialização:** total e exclusiva (Profissional → Fisioterapeuta / Recepcionista / Administrativo)
 - **1 entidade fraca:** Evolução, dependente de Paciente
 - **20 regras de negócio:** rastreadas do documento de escopo até a implementação (ver `docs/relatorio-etapa1.pdf`)
-- - **50 pacientes e 120 agendamentos na carga** além dos demais cadastros e históricos necessários à verificação do modelo.
+- **50 pacientes e 120 agendamentos na carga** além dos demais cadastros e históricos necessários à verificação do modelo.
 
 ## Uso de inteligência artificial
 
